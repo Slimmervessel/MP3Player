@@ -1,0 +1,61 @@
+name: Build iOS App
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Install Expo CLI
+        run: npm install -g expo-cli @expo/ngrok
+      
+      - name: Expo Prebuild
+        run: npx expo prebuild --platform ios --clean
+      
+      - name: Install CocoaPods
+        run: |
+          cd ios
+          pod install
+          cd ..
+      
+      - name: Build iOS App
+        run: |
+          cd ios
+          xcodebuild -workspace MP3Player.xcworkspace \
+            -scheme MP3Player \
+            -configuration Release \
+            -archivePath $PWD/build/MP3Player.xcarchive \
+            archive \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+      
+      - name: Create IPA
+        run: |
+          cd ios
+          mkdir -p Payload
+          cp -r build/MP3Player.xcarchive/Products/Applications/MP3Player.app Payload/
+          zip -r MP3Player-Unsigned.ipa Payload
+          mv MP3Player-Unsigned.ipa ../
+      
+      - name: Upload IPA
+        uses: actions/upload-artifact@v3
+        with:
+          name: MP3Player-Unsigned-IPA
+          path: MP3Player-Unsigned.ipa
+          retention-days: 30
