@@ -1,19 +1,21 @@
 {
   "expo": {
-    "name": "MP3Player",
+    "name": "MP3Player by Thomas Ash",
     "slug": "mp3player",
     "version": "1.0.0",
     "orientation": "portrait",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourname.mp3player",
+      "bundleIdentifier": "com.thomasash.mp3player",
       "infoPlist": {
-        "UIBackgroundModes": ["audio"]
+        "UIBackgroundModes": ["audio"],
+        "NSHumanReadableCopyright": "© 2025 Thomas Ash. All rights reserved."
       }
     },
     "android": {
-      "package": "com.yourname.mp3player"
+      "package": "com.thomasash.mp3player"
     },
     "plugins": [
       [
@@ -22,6 +24,10 @@
           "microphonePermission": "Allow MP3Player to access your microphone."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "author": "Thomas Ash",
+      "copyright": "© 2025 Thomas Ash. All rights reserved."
+    }
   }
 }
