@@ -23,7 +23,8 @@
         {
           "microphonePermission": "Allow MP3Player to access your microphone."
         }
-      ]
+      ],
+      "@react-native-async-storage/async-storage"
     ],
     "extra": {
       "author": "Thomas Ash",
